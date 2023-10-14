@@ -44,7 +44,7 @@ class AuthController extends Controller
             return $this->sendResponse($data, 'Login successfully.');
         }
 
-        return $this->sendError('Unauthorised.', ['error' => 'Unauthorised'], 401);
+        return $this->sendError('Unauthorised.', ['error' => trans('auth.failed')], 401);
     }
 
     /**
@@ -86,5 +86,48 @@ class AuthController extends Controller
     {
         $request->user()->tokens()->delete();
         return $this->sendResponse(null, 'Logout successfully.');
+    }
+
+    /**
+     * Account
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function account()
+    {
+        $user = Auth::user();
+        return $this->sendResponse($user, 'Account retrieved successfully.');
+    }
+
+    /**
+     * Account Save
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function account_save(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.Auth::user()->id,
+            'password' => 'nullable|min:8|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
+            'password_confirmation' => 'nullable|min:8'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors(), 400);
+        }
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->password) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return $this->sendResponse($user, 'Account updated successfully.');
     }
 }

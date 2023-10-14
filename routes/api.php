@@ -21,5 +21,13 @@ Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
 
+    Route::get('/auth/account', [App\Http\Controllers\Api\AuthController::class, 'account']);
+    Route::put('/auth/account', [App\Http\Controllers\Api\AuthController::class, 'account_save']);
     Route::post('/auth/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
+
+    Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
+    Route::get('/users/{id}', [App\Http\Controllers\Api\UserController::class, 'show']);
+    Route::post('/users', [App\Http\Controllers\Api\UserController::class, 'create']);
+    Route::put('/users/{id}', [App\Http\Controllers\Api\UserController::class, 'update']);
+    Route::delete('/users/{id}', [App\Http\Controllers\Api\UserController::class, 'destroy']);
 });
