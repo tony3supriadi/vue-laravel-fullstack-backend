@@ -38,18 +38,8 @@ class Post extends Model
         return $this->hasMany(PostLike::class)->where('liked', true);
     }
 
-    public function like_counts()
-    {
-        return $this->likes()->count();
-    }
-
     public function dislikes()
     {
         return $this->hasMany(PostLike::class)->where('liked', false);
-    }
-
-    public function dislike_counts()
-    {
-        return $this->dislikes()->count();
     }
 }
