@@ -12,7 +12,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::with(['author', 'comments', 'likes'])
+        $posts = Post::with(['author', 'comments', 'comments.replies', 'like', 'dislike'])
             ->orderBy('created_at', 'DESC');
 
         if (request()->get('status')) {

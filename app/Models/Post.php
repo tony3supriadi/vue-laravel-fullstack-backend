@@ -33,13 +33,13 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function likes()
+    public function like()
     {
-        return $this->hasMany(PostLike::class)->where('liked', true);
+        return $this->hasOne(PostLike::class)->where('liked', true);
     }
 
-    public function dislikes()
+    public function dislike()
     {
-        return $this->hasMany(PostLike::class)->where('liked', false);
+        return $this->hasOne(PostLike::class)->where('liked', false);
     }
 }

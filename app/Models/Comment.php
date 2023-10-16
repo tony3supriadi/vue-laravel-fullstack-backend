@@ -32,4 +32,14 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }
+
+    public function like()
+    {
+        return $this->hasOne(PostLike::class)->where('liked', true);
+    }
+
+    public function dislike()
+    {
+        return $this->hasOne(PostLike::class)->where('liked', false);
+    }
 }

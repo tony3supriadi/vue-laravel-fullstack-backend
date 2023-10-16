@@ -31,6 +31,14 @@ Route::group([
     Route::put('/posts/{id}', [App\Http\Controllers\Api\PostController::class, 'update']);
     Route::delete('/posts/{id}', [App\Http\Controllers\Api\PostController::class, 'destroy']);
 
+    Route::get('/comments', [App\Http\Controllers\Api\CommentController::class, 'index']);
+    Route::post('/comments', [App\Http\Controllers\Api\CommentController::class, 'create']);
+    Route::put('/comments/{id}', [App\Http\Controllers\Api\CommentController::class, 'update']);
+    Route::delete('/comments/{id}', [App\Http\Controllers\Api\CommentController::class, 'destroy']);
+
+    Route::post('/liked/post/{id}', [App\Http\Controllers\Api\LikedController::class, 'post']);
+    Route::post('/liked/comment/{id}', [App\Http\Controllers\Api\LikedController::class, 'comment']);
+
     Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
     Route::get('/users/{id}', [App\Http\Controllers\Api\UserController::class, 'show']);
     Route::post('/users', [App\Http\Controllers\Api\UserController::class, 'create']);
